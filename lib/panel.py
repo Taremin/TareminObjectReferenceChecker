@@ -24,14 +24,18 @@ class VIEW3D_PT_ObjectReferenceCheckerPanel(bpy.types.Panel):
 
         if context.active_object is None:
             return
+
         col = row.column()
-        col.enabled = True
         active = col.operator(
             ops.VIEW3D_OT_ObjectReferenceCheckerSwitchObject.bl_idname,
             text="",
             icon='RESTRICT_SELECT_OFF'
         )
-        active.object_name = context.active_object.name
+        if settings.current_object is not None:
+            active.object_name = settings.current_object.name
+            col.enabled = True
+        else:
+            col.enabled = False
 
         row = layout.row()
         col = row.column()
